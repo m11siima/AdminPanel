@@ -1,13 +1,7 @@
 namespace AdminPanel.Domain.Security;
 
-/// <summary>
-/// Logical groups of permissions for easier role management in UI.
-/// </summary>
 public static class PermissionGroups
 {
-    /// <summary>
-    /// All Game Management permissions.
-    /// </summary>
     public static readonly string[] GameManagement =
     {
         Permissions.GM.Module.Access,
@@ -29,9 +23,6 @@ public static class PermissionGroups
         Permissions.GM.Platforms.Delete,
     };
 
-    /// <summary>
-    /// All User Management permissions.
-    /// </summary>
     public static readonly string[] UserManagement =
     {
         Permissions.Users.Read,
@@ -41,9 +32,6 @@ public static class PermissionGroups
         Permissions.Users.Manage,
     };
 
-    /// <summary>
-    /// All Role Management permissions.
-    /// </summary>
     public static readonly string[] RoleManagement =
     {
         Permissions.Roles.Read,
@@ -53,9 +41,6 @@ public static class PermissionGroups
         Permissions.Roles.Manage,
     };
 
-    /// <summary>
-    /// Full admin access - all permissions.
-    /// </summary>
     public static readonly string[] FullAdmin = Permissions.All.ToArray();
 }
 

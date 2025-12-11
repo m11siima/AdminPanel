@@ -105,7 +105,7 @@ using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AdminPanel.Infrastructure.Persistence.AppDbContext>();
     
-    db.Database.Migrate();
+    //db.Database.Migrate();
 
     var seeder = scope.ServiceProvider.GetRequiredService<AdminPanel.Domain.Interfaces.IPermissionCatalogSeeder>();
     await seeder.SyncAsync();

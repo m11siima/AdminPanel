@@ -1,12 +1,7 @@
 namespace AdminPanel.Domain.Security;
 
-/// <summary>
-/// All permission keys must be defined here as constants to avoid typos and enable refactoring.
-/// </summary>
 public static class Permissions
 {
-    // Example: Game Management permissions (for future implementation)
-    // This is just an example structure - actual Game Management module is not implemented yet
     public static class GM
     {
         public static class Module
@@ -53,7 +48,6 @@ public static class Permissions
         }
     }
 
-    // User Management permissions
     public static class Users
     {
         public const string Read = "users.read";
@@ -63,7 +57,6 @@ public static class Permissions
         public const string Manage = "users.manage";
     }
 
-    // Role Management permissions
     public static class Roles
     {
         public const string Read = "roles.read";
@@ -73,12 +66,8 @@ public static class Permissions
         public const string Manage = "roles.manage";
     }
 
-    /// <summary>
-    /// Collection of all permission keys for seeding and validation.
-    /// </summary>
     public static readonly IReadOnlyCollection<string> All = new[]
     {
-        // Game Management
         GM.Module.Access,
         GM.Games.Read,
         GM.Games.Edit,
@@ -97,14 +86,12 @@ public static class Permissions
         GM.Platforms.Update,
         GM.Platforms.Delete,
 
-        // User Management
         Users.Read,
         Users.Create,
         Users.Update,
         Users.Delete,
         Users.Manage,
 
-        // Role Management
         Roles.Read,
         Roles.Create,
         Roles.Update,
