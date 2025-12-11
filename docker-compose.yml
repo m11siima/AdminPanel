@@ -1,0 +1,56 @@
+services:
+  db:
+    image: mysql:8.0.36
+    container_name: adminpanel-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: pass123
+      MYSQL_DATABASE: adminpanel
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./mysql/create_db.sql:/docker-entrypoint-initdb.d/00_create_db.sql:ro
+      - ./mysql/dump.sql:/docker-entrypoint-initdb.d/01_dump.sql:ro
+    command: [
+      "--default-authentication-plugin=mysql_native_password",
+      "--character-set-server=utf8mb4",
+      "--collation-server=utf8mb4_unicode_ci",
+      "--lower-case-table-names=1"
+    ]
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ppass123"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+
+  backend:
+    build:
+      context: ./AdminPanelBackend
+      dockerfile: Dockerfile
+    container_name: adminpanel-backend
+    environment:
+      ASPNETCORE_URLS: http://0.0.0.0:44387
+      ConnectionStrings__Default: "Server=db;Port=3306;Database=adminpanel;User=root;Password=pass123;AllowUserVariables=True;AllowPublicKeyRetrieval=True;"
+      Database__ServerVersion: "8.0.36"
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "44387:44387"
+
+  frontend:
+    build:
+      context: ./AdminPanelFrontend/admin
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: http://localhost:44387/api
+    container_name: adminpanel-frontend
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  db_data:
+
